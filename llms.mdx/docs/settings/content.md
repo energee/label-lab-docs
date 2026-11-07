@@ -1,0 +1,30 @@
+# Settings (/docs/settings)
+
+**Settings…** (`⌘,`): on the Mac app it is in the **Label Lab** menu; on Windows, Linux and in the browser it is under **Edit**. Settings stick on this machine and do not live in the `.label` file.
+
+The dialog groups them under Language, Output, and Can preview. The theme is not here: it is View → Appearance or the `⌘K` palette.
+
+## Language [#language]
+
+Choose **English**, **Español**, **Français**, **Deutsch**, or **Português** (Brazilian). **Use system language** follows the first supported language in your system preferences; if none is supported, the app uses English. Your choice is remembered on this machine.
+
+Menus, controls, descriptions, tooltips, and accessibility labels switch immediately. New app-authored messages use the selected language; notices already shown keep the language they were created in. Switching does not close your tabs or change unsaved label content. Beer names, layer and master names, artwork, filenames, and keyboard shortcuts stay as they are. Release notes, this guide, and messages supplied by the operating system or plugins keep their original language. On macOS, the parts the system draws (Open and Save panels, Start Dictation, Emoji & Symbols) follow the macOS language rather than this setting; to give Label Lab its own language there, use System Settings › General › Language & Region › Applications and reopen the app.
+
+Dates follow the selected app language. Numeric editing keeps its existing decimal-point format, so changing language does not change how dimensions are entered.
+
+## Output [#output]
+
+| Control | What it does |
+| --- | --- |
+| **PSD resolution** | PSD raster resolution, which also sizes the Pixels length unit (72–1200 DPI, default 600). PDFs keep vector geometry and embed uploaded art at its original resolution. |
+| **Bleed** | Extra around the trim. Geometry for both plates. Ruler zero stays at trim. |
+| **Two-file export (art + mask)** | Off by default: `⌘E` saves one PDF and `⇧⌘E` one PSD, each with White Ink inside. On: they save art + mask pairs instead, and the single artwork and mask PDFs show in the export menu. |
+
+## Can preview [#can-preview]
+
+| Control | What it does |
+| --- | --- |
+| **Corner radius** | Die-cut corner radius in inches (house die: 1/16 inch), shown on the 3D can. |
+| **Edge softness** | Foil-edge blur in inches, shown on the can preview. |
+
+Bleed and PSD resolution change what gets built. Corner radius and edge softness are how the can preview presents the press. They don't redraw the 2D plates.

@@ -1,0 +1,43 @@
+# Workspace (/docs/workspace)
+
+## Layout [#layout]
+
+![Label Lab with the Layers list on the left, the label in the preview, and the inspector open on the right](/screenshots/workspace.webp)
+
+- **Menubar.** File, Edit, Layer, View. In the browser it lives in the window, and the tab icon is the desktop app icon. Every row carries an icon: the Mac menu shows Apple's standard symbols (they follow light and dark mode), and the browser draws the closest match. On desktop those actions sit in the native menu (macOS menu bar, window menu everywhere else), checkmarks and disabled states included, so the in-window copy goes away.
+- **Tabs.** One tab per open label, under the menubar. Own undo, own dirty state, own save target.
+- **Layers sidebar.** Master picker plus the list. Collapse it from the header button, View → Layers, or `⌘B`.
+- **Preview.** The sheet, the mask reveal, the flat rendered label, or the 3D can. Status bar underneath: zoom and the Label | Mask | Rendered | Can view control.
+- **Inspector.** Right-hand sheet, open while a layer is selected. Not a modal. You can still click the list and the preview.
+
+On macOS the desktop app draws everything around the preview (sidebar, tabs, header, status bar, inspector) on Liquid Glass, so the windows behind show through, blurred. The preview itself stays solid so the glass never changes how your artwork looks.
+
+**Settings** (bleed, PSD resolution, corner radius) and the View → Appearance theme, plus your colour swatches, stick around on this machine. They do not ride in the `.label` file.
+
+## Tabs [#tabs]
+
+**File → New Tab** (`⌘N`) opens an untitled canvas on the last master you applied (layers and positions only — not the previous beer's fills or art). **Open Label…** (`⌘O`) loads a `.label` into the current tab if it is an untitled tab you haven't touched, otherwise a new one. A file you opened stays put, even unedited.
+
+In the desktop app, **File → Open Recent** lists the last ten `.label` files you opened or saved to a new file (Save As, or the first Save), newest first, by file name (a folder name is added when two files share a name). Choosing one opens it just like double-clicking it in Finder. A file that has since moved or been deleted shows a **Could not open label** error toast and drops off the list. **Clear Menu** empties the list. The list is kept on this machine, like Settings.
+
+**Close Tab** (`⌘W`), the × on a tab, or Delete (or Backspace) on a focused tab asks Save / Discard / Cancel when that tab has real work on it. Unsaved master edits (a layer added, removed, or reordered in the template) count too, even after the label itself is saved. The prompt's Save keeps both: when the master has unsaved edits it saves the master first, exactly as **File → Save Master…** does (straight to the file, or the review when the label has overrides to promote), then the `.label`, and closes the tab. Cancel the review or a save dialog (or a failed save) and the tab stays open. When you are quitting, that also stops the quit. Closing the window or quitting walks every dirty tab through the same prompt, worded for quitting (Cancel keeps Label Lab open). With more than one dirty tab you're asked once first: **Review Changes…** walks them one prompt at a time, **Discard All** quits without saving any, **Cancel** keeps Label Lab open. That applies to `⌘Q`, and on macOS also Dock → Quit, logging out, or shutting down (Label Lab stops the logout until you've decided; if the prompt does not appear, choosing Quit again within a few seconds quits anyway). On Windows, logging out or shutting down closes Label Lab without the prompt, so unsaved work is only kept by the recovery snapshot. The browser build uses the generic leave-page warning instead.
+
+The active tab shows its × dimmed at all times; other tabs show theirs on hover. A tab with unsaved changes shows a • in that spot instead, which is also its close button.
+
+Background tabs keep state and assets. They drop the rendered preview. Switch back and it rebuilds like usual.
+
+A fresh Untitled tab starts "dirty" so Save is live, and it closes without a fuss if you never edited it.
+
+## Command palette [#command-palette]
+
+`⌘K` / `Ctrl+K`. Every menu command, grouped and named as the menus show them (File, Export, Edit, Layer, View, Units, Appearance). A view or toggle that is on shows a check mark, as in the menu. **New Variant**, which is in no menu, is listed last under Other. Type a menu name to narrow it down: "view label" finds the Label view, "appearance dark" the dark theme.
+
+## When something's wrong [#when-somethings-wrong]
+
+Messages appear as toasts at the bottom of the preview. Notes about something that worked fade on their own; warnings and errors stay until you close them or fix what caused them. An invalid value also shows where it is: its layer's row in the Layers list turns red and gives the reason. If the label can't export, see [When export is blocked](/docs/export#when-export-is-blocked).
+
+A **Something went wrong** toast means a save, export or open broke somewhere unexpected. Your tabs are untouched, but check that the last action actually finished before relying on it.
+
+## Crash recovery [#crash-recovery]
+
+Tabs with unsaved changes keep a recovery copy as you work. If Label Lab crashes or is forced to quit, the next launch offers them back: **Restore** reopens each one as an unsaved tab, **Discard** throws the copies away. On the desktop app, a restored tab that came from a `.label` saves back to that file, as long as the file is still there, hasn't been changed since that tab last opened or saved it, and isn't open in another tab. Otherwise Save asks where to write it, and a warning toast names the original file. Closing the offer without choosing keeps them for next time. Changes from the last couple of seconds before a crash may be missing.

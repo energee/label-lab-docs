@@ -1,0 +1,69 @@
+# Inspector (/docs/inspector)
+
+Pick a layer in the list or on the preview and the right-hand inspector opens. The **✕** at the top right, Esc, or a click on the empty pasteboard clears the selection and shuts it. One panel at a time. Esc inside a field or during a drag only cancels that, and Esc in an on-preview text edit finishes it, keeping what you typed; the inspector stays open.
+
+With several layers selected, the inspector edits only the last one you picked and says so ("Editing Brand only (3 selected)"). Drag, reorder and Delete still act on the whole selection.
+
+Lengths show in the app's one unit: inches, millimetres, points or pixels, picked in the ruler corner or under View → **Units** (see [Preview](/docs/preview#rulers-and-guides)). It is display only; under the hood it's still PDF points. It converts X, Y, binding gap, width, height, wrap width, barcode module width and QR size. Type size and letter spacing stay in points (the typographic unit), stroke width in pixels at 600 DPI (the unit it is saved in, whatever the export resolution) and character height in millimetres; hover a field's unit to see why.
+
+## Header [#header]
+
+Kind icon, the layer's name, then **power** and **lock** icon buttons, so they work with the Layers sidebar hidden (`⌘B`). Power controls the same saved visibility setting as the list's Show eye. Page art (texture and mask) has no lock: it can't be dragged anyway.
+
+The name box renames the way a Layers row does: type, then press Enter or click away to rename (one undo step). Esc puts the old name back. An empty name is never saved; leaving the box empty restores the name.
+
+A layer that only a variant adds reads **Off** while that variant is off for this label, with a note naming the variant. Edits to it don't apply until it is on; turning it on switches the variant on too.
+
+The **lock** is canvas-only: drag, resize and nudge are off, but values typed here still apply.
+
+## Content [#content]
+
+Sits right under the header, captioned by what it is (Text, Code, Link, Texture…). Depends on the kind:
+
+- **Text.** The WYSIWYG editor ([Editing](/docs/editing)). Number layers (ABV) are a number box that takes plain decimals (`6`, `6.5`, `-1`), not `1e1` or `6.`; blank counts as not filled yet. Code-as-text layers validate like a barcode.
+- **Image.** Drop or pick a file. SVG logos take the slot's fill. Rasters print as you authored them.
+- **Barcode.** The code string, plus a choice list if the master offers tiers. A UPC-A can be typed as printed (`0 36000 29145 2` or with hyphens); it is stored as bare digits. A wrong check digit says which digit it should be.
+- **QR.** A **Link** box and a **followed by** picker of text layers (or “nothing”). The selected text is made safe for a link. The Lolev master uses `https://lolev.beer/beer/{name|slug}`; that derived URL is what gets encoded.
+
+## Typography (text) [#typography-text]
+
+- Font: Poppins or Barlow Condensed, or the master default
+- Size in points, and **printed character height** in millimetres (tallest letter or numeral at export size). A warning names any character the layer's font cannot print; export refuses those until they are replaced or the font changes
+- Align: left, centre, right, justify. A last or only justified line falls back to left
+- Wrap width. Blank means no wrap
+- Line spacing and heading scale
+- Letter spacing (tracking)
+- **Uppercase.** Display only. Stored text keeps its typed case so `{name|slug}` still reads the original
+
+## Geometry [#geometry]
+
+Position is measured from the layer's guides and anchors. X and Y share a row, as do the two guides. The link button on the Rotation row (**Bind to layer…**) ties a layer to another layer's edge with a gap and it rides along when the other grows (the collab block is built this way). **Unbind** writes the current top as a plain coordinate. A layer that another visible layer is bound to can't be switched off on its own — switch off (or unbind) the layers bound to it first, or together with it.
+
+Text and codes can rotate **90°** (reads bottom to top). Images can't.
+
+Image layers also have width, optional height, contain/cover fit, and **Tint raster** for colouring a bitmap with the fill (shown only for PNG/JPEG art; an SVG already takes the fill). Width and height are the drawn size. (Files saved before Scale was removed open with it folded into width and height, so they draw exactly as before.) Page art (texture and mask) always covers the page, so it has no Position or size fields. A position override left on it (X, Y, a guide or a binding) shows a reset badge (**Unused position override**) so you can clear it.
+
+Barcodes: UPC-A, EAN-13, or Code 128. Module width, bar height, show digits. You'll see a warning when the module is too skinny for curved metal.
+
+QR: square size, style (square, rounded, dots), and error correction (L, M, Q, H; default L for a new layer, Q on the Lolev master's QR). A new Barcode or QR layer is black on white ink with a white halo. The Lolev master's QR is keylined gold: keep a keylined dots QR at Q or H, since at L the black keyline makes its gold dots hard for scanners to read.
+
+## Colour [#colour]
+
+- **Fill.** Colour picker (screen eyedropper on Chromium), hex field, and **no ink**, except on barcodes and QR. On a text layer it recolours every line at once. Those have to scan. Colours are 3- or 6-digit hex (`#fff` reads as `#ffffff`) or CMYK percentages typed into the same field as `cmyk(15,25,70,5)`. A CMYK colour prints exactly those inks; the preview, the PSD and tinted raster images show an RGB approximation. Picking from the colour picker switches back to hex. Saved swatches keep CMYK colours as CMYK. A hand-edited `.label` or `.master` with a named colour such as `gold` is refused on open, naming the layer.
+- **Metallic.** On knocks out of the white-ink plate (bare stock). Off lays white ink under it — on a text layer, under every line; a line or run given the toolbar's White ink underlay is on white ink either way. Raster images (PNG, JPEG) always print on white ink (a PNG only under its non-transparent pixels), so their Metallic toggle is greyed out and its tooltip says to use an SVG for metallic art. With Fill set to **no ink** the toggle is greyed out: there is nothing to plate.
+- **Stroke.** One reset badge: beside the switch while the stroke is off, beside its colour while it is on. Optional outer stroke with its own colour, metallic flag, and width in px at 600 DPI (15px = 1.8pt). The physical width holds at any export DPI. Codes default the halo to white. Everything else defaults a dark keyline. A barcode can also turn on **Solid background**: the stroke colour fills the whole barcode box, quiet zone included, instead of only outlining the bars and digits.
+
+## Override badges [#override-badges]
+
+Badges sit just left of the control they reset. A **filled dot** means an enabled variant sets this property. A **ring** means this label overrides it; set the value back to the master's and the ring goes away. Each badge resets only its own source, so clearing your beer's edit cannot rewrite the shipped variant.
+
+## Fill contract [#fill-contract]
+
+**Template field settings**, folded at the foot of a text layer's inspector. This is what someone filling the layer is allowed to put in. It belongs to the master and shows up in Save Master review:
+
+- Field label (caption above the fill widget). Left blank, the caption names the input: **Number**, **Code**, or **Text**
+- **Input**: Rich text, Number, or Code. Number makes the fill a number box; Code validates it like a barcode, with its **Symbology**
+- **Minimum** and **Maximum** for a Number input (blank means no limit)
+- Choices (a list you can pick from; typing something new is still allowed and is learned once you commit it with Enter or by clicking away, on the canvas as in the sidebar)
+- Placeholder on empty text (on screen only: an empty field prints blank)
+- Suffix after a Number or Code value (`% alc by vol` and friends)

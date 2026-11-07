@@ -1,0 +1,30 @@
+# Overview (/docs)
+
+You start from a master (the brand's template) and fill in this beer's copy and art.
+
+Export writes one PDF with vector artwork, original-resolution images and an overprinting **White Ink** spot layer. Check the separation in Acrobat's Output Preview with Overprint Preview enabled; viewers without it may show magenta and white shapes instead of the intended composite.
+
+**Settings → Two-file export (art + mask)** switches `⌘E` and `⇧⌘E` to separate artwork and mask files.
+
+On the mask, **blue is white ink** and **white is knockout**. Bare metallic stock shows through the holes. No mask image loaded? The plate floods full blue. That's "print this as a white label." Metallic type and marks still knock out to stock on top of the flood.
+
+Need a designer in the loop? Export the same geometry as Photoshop files.
+
+## The window [#the-window]
+
+Three regions:
+
+1. **Layers** (left): master and version picker, every layer on this label
+2. **Preview** (centre): the 2D sheet, the white-ink reveal, or a 3D can
+3. **Inspector** (right): opens when you pick a layer. Content, type, position, colour
+
+Tabs hold more than one label. Filling *this* beer never quietly rewrites the template. Moves, colours, and copy land on the label. The master only changes when you choose Save Master.
+
+## Start here [#start-here]
+
+<Cards>
+  <Card title="Getting started" href="/docs/getting-started" description="Download Label Lab and fill your first label." />
+  <Card title="Masters and labels" href="/docs/masters-and-labels" description="What the master and the label each hold, and Save Master." />
+  <Card title="Editing" href="/docs/editing" description="Selecting, typing, moving and undo." />
+  <Card title="Export" href="/docs/export" description="The print PDF, two-file export and PSDs." />
+</Cards>

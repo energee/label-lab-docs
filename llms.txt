@@ -1,0 +1,20 @@
+# User guide
+
+- [Overview](/docs): What Label Lab makes, the window, and where to start.
+- [Getting started](/docs/getting-started): Download Label Lab and fill your first label.
+- [Workspace](/docs/workspace): Tabs, menus, the command palette, messages and crash recovery.
+- Fill and check
+  - [Layers](/docs/layers): The Layers list, visibility, lock, Changed, and adding layers.
+  - [Inspector](/docs/inspector): Edit one layer's content, type, position and colour.
+  - [Editing](/docs/editing): Selecting, typing, moving, snapping and undo.
+  - [Preview](/docs/preview): The Label, Mask, Rendered and Can views, zoom, rulers and guides.
+- Output
+  - [Export](/docs/export): The print PDF with its White Ink layer, two-file art and mask export, and PSDs.
+  - [Settings](/docs/settings): Language, bleed, PSD resolution and the can preview.
+- Masters and files
+  - [Masters and labels](/docs/masters-and-labels): What the master and the label each hold, the master picker, and Save Master.
+  - [Variants](/docs/variants): Named variants such as Collab, and choosing which version you edit.
+  - [Files](/docs/files): Label and master files, and dropping texture and mask images.
+- Reference
+  - [Keyboard shortcuts](/docs/shortcuts): Keyboard shortcuts for files, views and the canvas.
+  - [Headless generate](/docs/generate): Build PDFs and PSDs from a master and JSON on the command line.

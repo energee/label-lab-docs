@@ -1,0 +1,31 @@
+# Layers (/docs/layers)
+
+Left list is every layer on the resolved label, **front to back**. Background texture and metallic mask sit at the bottom like any other image. No special Document group.
+
+Each row:
+
+- Kind icon (text, image, barcode, QR; texture and mask have their own)
+- Name. Double-click it to rename (or use the inspector's name box, or right-click → Rename)
+- A **variant badge** when a variant *adds* this layer, or when an enabled variant changes this master layer. Hover it: "Added by the Collab variant" or "Changed by the Collab variant". A row the variant adds turns grey while that variant is off, and its Show eye is crossed out
+- A **provenance mark** when an enabled variant overrides part of a master layer
+- **Show**, an eye in a fixed column. A crossed-out eye means the layer is hidden from both preview and exports; its name stays readable in grey. This is the saved, undoable `enabled` setting, not a session-only hide. Showing a layer whose variant is off also enables that variant; the tooltip names it
+- **Lock**, an open or closed padlock in the next fixed column. Click to lock or unlock on the canvas: drag, resize and nudge are prevented, but typed inspector values still apply. Page art (Background, Metallic mask) leaves this cell empty because it can't be dragged
+- **Remove** (trash), separated from the toggles in its own column, available only on selected rows. Undo restores removed layers
+
+Show and Lock stay visible without hovering, in a compact group at the right edge. Hover a control for its action and scope; there are no column headings. Each control keeps a 24px target, and positions stay fixed when you select, hide or lock a layer. Right-click any row for Rename, Lock (or Unlock; not on page art) and Remove.
+
+Drag a row to reorder. Up the list is toward the front. Delete or Backspace on a selected row removes it.
+
+Click a row to select it (inspector opens). The selected row is tinted blue. `⇧` extends. `⌘` / `Ctrl` toggles. Selecting a layer on the preview scrolls its row into view.
+
+## Header [#header]
+
+One line: the title, then the filter, then Add layer.
+
+- **Changed.** Only the layers you actually filled or overrode on this beer. Everything is fillable, so this is "what did I touch?"
+- **Variants.** Switch them on or off for this label in the Master picker above the list. See [Variants](/docs/variants).
+- **Add layer.** Text, Image, Barcode, or QR (also in the menu bar: Layer → Add Text Layer, and the Image, Barcode and QR rows under it). It lands on the version the master picker names (the base master, or a variant you switched to).
+
+## Page art [#page-art]
+
+The two bottom image layers are the **background** (rock texture) and the **mask** (metallic knockout). Drop files on the window, or onto the inspector's image field once the layer is selected. More on [Files](/docs/files).

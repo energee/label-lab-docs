@@ -1,0 +1,683 @@
+# Editing (/docs/editing)
+
+## Selecting [#selecting]
+
+Click a layer on the preview or in the list. Click the empty pasteboard around the sheet, or the inspector's **✕**, to clear it (inspector closes too).
+
+- `⇧`-click extends
+- `⌘`-click / `Ctrl`-click toggles
+- Multi-select draws a group frame around the layers
+
+## Typing [#typing]
+
+Double-click a text layer on the preview and you edit **in place**, at print metrics, pill toolbar floating above. The sidebar is the same editor.
+
+Esc or a click away finishes the edit and **keeps what you typed**, as in Figma or Illustrator. `⌘Z` takes the whole edit back in one step.
+
+- **Header:** bigger line (heading scale in the inspector)
+- **Bold**
+- **White ink underlay:** that line (or run) goes on the white-ink plate. Fill colour stays. Colour and plate otherwise come from the inspector's **Fill** and **Metallic**, which restyle every line at once; a line or run you gave the underlay keeps it
+- **Uppercase:** whole layer, without losing what you actually typed. On the pill only; in the sidebar it is the inspector's Typography **Uppercase** switch
+
+Select part of a line and hit Bold or White ink underlay to wrap just that span. Type `**bold**` or `_white ink_` and it becomes a run. The markers vanish. A run can span several words (`**GOVERNMENT WARNING:**`) and keeps its style when the line wraps or justifies. There is no escape hatch for a literal pair.
+
+In the sidebar, `⇧Tab` from a text field reaches its toolbar. The buttons act on the selection you left in the field.
+
+Number and code layers, and any layer with a choice list (Style), get a plain box, on the canvas and in the sidebar alike. A new value typed into a choice field joins the master's list once, when you press Enter or Esc or click away, never letter by letter.
+
+Number and code boxes validate. On the canvas, what you type is kept as typed. A value that isn't a number, is out of range, or isn't a valid code shows its error under the box (on the canvas, above it when the box sits near the bottom of the label) and blocks export until you fix it. A number box takes decimals such as `5.8`, and in the sidebar the arrow keys keep the fraction.
+
+## Moving and resizing [#moving-and-resizing]
+
+Pointer down on an unlocked layer, drag a few pixels, and it (or the whole selection) moves. Corner and edge ticks on the outline resize.
+
+While you drag or resize:
+
+- Layers **snap** to other layers' edges and middles, and to page guides (including ones you pulled off the rulers)
+- **Fuchsia** lines are another layer. **Blue** lines are a page guide
+- A badge reads how far you travelled, or the width and height while resizing, in the unit the rulers use (View → Units)
+
+Arrow keys nudge **1 point**. Shift makes it **10**. They stay out of the way while you're typing or a menu is open.
+
+Locked layers don't move on the canvas. Powered-off layers don't draw and you can't click them.
+
+## Undo [#undo]
+
+`⌘Z` / `⇧⌘Z` (or `⌘Y`) cover the document: fills, style, position, structure. Edits within half a second collapse into one step, so a scrub undoes as a single move. Typing in one inspector field is one step of its own, however slowly you type, and never merges with the edit before or after it. So is an on-preview text edit, from double-click until you leave it.
+
+Loaded texture and mask **files** are not on that stack. Stepping back never re-decodes an image. Removing one with its well's **×** leaves a note with its own **Undo**, until the slot is filled again. An image layer's art is on the stack: the note under its well points to `⌘Z`. While a text field has focus, that field's own undo wins.
+
+## What you're actually changing [#what-youre-actually-changing]
+
+Moving a name, restyling gold, typing this beer: that's the **label**. Promote those overrides in Save Master when they should become the template. Adding a layer or a variant is already a master edit. It will be on the review.
+
+
+# Inspector (/docs/inspector)
+
+Pick a layer in the list or on the preview and the right-hand inspector opens. The **✕** at the top right, Esc, or a click on the empty pasteboard clears the selection and shuts it. One panel at a time. Esc inside a field or during a drag only cancels that, and Esc in an on-preview text edit finishes it, keeping what you typed; the inspector stays open.
+
+With several layers selected, the inspector edits only the last one you picked and says so ("Editing Brand only (3 selected)"). Drag, reorder and Delete still act on the whole selection.
+
+Lengths show in the app's one unit: inches, millimetres, points or pixels, picked in the ruler corner or under View → **Units** (see [Preview](/docs/preview#rulers-and-guides)). It is display only; under the hood it's still PDF points. It converts X, Y, binding gap, width, height, wrap width, barcode module width and QR size. Type size and letter spacing stay in points (the typographic unit), stroke width in pixels at 600 DPI (the unit it is saved in, whatever the export resolution) and character height in millimetres; hover a field's unit to see why.
+
+## Header [#header]
+
+Kind icon, the layer's name, then **power** and **lock** icon buttons, so they work with the Layers sidebar hidden (`⌘B`). Power controls the same saved visibility setting as the list's Show eye. Page art (texture and mask) has no lock: it can't be dragged anyway.
+
+The name box renames the way a Layers row does: type, then press Enter or click away to rename (one undo step). Esc puts the old name back. An empty name is never saved; leaving the box empty restores the name.
+
+A layer that only a variant adds reads **Off** while that variant is off for this label, with a note naming the variant. Edits to it don't apply until it is on; turning it on switches the variant on too.
+
+The **lock** is canvas-only: drag, resize and nudge are off, but values typed here still apply.
+
+## Content [#content]
+
+Sits right under the header, captioned by what it is (Text, Code, Link, Texture…). Depends on the kind:
+
+- **Text.** The WYSIWYG editor ([Editing](/docs/editing)). Number layers (ABV) are a number box that takes plain decimals (`6`, `6.5`, `-1`), not `1e1` or `6.`; blank counts as not filled yet. Code-as-text layers validate like a barcode.
+- **Image.** Drop or pick a file. SVG logos take the slot's fill. Rasters print as you authored them.
+- **Barcode.** The code string, plus a choice list if the master offers tiers. A UPC-A can be typed as printed (`0 36000 29145 2` or with hyphens); it is stored as bare digits. A wrong check digit says which digit it should be.
+- **QR.** A **Link** box and a **followed by** picker of text layers (or “nothing”). The selected text is made safe for a link. The Lolev master uses `https://lolev.beer/beer/{name|slug}`; that derived URL is what gets encoded.
+
+## Typography (text) [#typography-text]
+
+- Font: Poppins or Barlow Condensed, or the master default
+- Size in points, and **printed character height** in millimetres (tallest letter or numeral at export size). A warning names any character the layer's font cannot print; export refuses those until they are replaced or the font changes
+- Align: left, centre, right, justify. A last or only justified line falls back to left
+- Wrap width. Blank means no wrap
+- Line spacing and heading scale
+- Letter spacing (tracking)
+- **Uppercase.** Display only. Stored text keeps its typed case so `{name|slug}` still reads the original
+
+## Geometry [#geometry]
+
+Position is measured from the layer's guides and anchors. X and Y share a row, as do the two guides. The link button on the Rotation row (**Bind to layer…**) ties a layer to another layer's edge with a gap and it rides along when the other grows (the collab block is built this way). **Unbind** writes the current top as a plain coordinate. A layer that another visible layer is bound to can't be switched off on its own — switch off (or unbind) the layers bound to it first, or together with it.
+
+Text and codes can rotate **90°** (reads bottom to top). Images can't.
+
+Image layers also have width, optional height, contain/cover fit, and **Tint raster** for colouring a bitmap with the fill (shown only for PNG/JPEG art; an SVG already takes the fill). Width and height are the drawn size. (Files saved before Scale was removed open with it folded into width and height, so they draw exactly as before.) Page art (texture and mask) always covers the page, so it has no Position or size fields. A position override left on it (X, Y, a guide or a binding) shows a reset badge (**Unused position override**) so you can clear it.
+
+Barcodes: UPC-A, EAN-13, or Code 128. Module width, bar height, show digits. You'll see a warning when the module is too skinny for curved metal.
+
+QR: square size, style (square, rounded, dots), and error correction (L, M, Q, H; default L for a new layer, Q on the Lolev master's QR). A new Barcode or QR layer is black on white ink with a white halo. The Lolev master's QR is keylined gold: keep a keylined dots QR at Q or H, since at L the black keyline makes its gold dots hard for scanners to read.
+
+## Colour [#colour]
+
+- **Fill.** Colour picker (screen eyedropper on Chromium), hex field, and **no ink**, except on barcodes and QR. On a text layer it recolours every line at once. Those have to scan. Colours are 3- or 6-digit hex (`#fff` reads as `#ffffff`) or CMYK percentages typed into the same field as `cmyk(15,25,70,5)`. A CMYK colour prints exactly those inks; the preview, the PSD and tinted raster images show an RGB approximation. Picking from the colour picker switches back to hex. Saved swatches keep CMYK colours as CMYK. A hand-edited `.label` or `.master` with a named colour such as `gold` is refused on open, naming the layer.
+- **Metallic.** On knocks out of the white-ink plate (bare stock). Off lays white ink under it — on a text layer, under every line; a line or run given the toolbar's White ink underlay is on white ink either way. Raster images (PNG, JPEG) always print on white ink (a PNG only under its non-transparent pixels), so their Metallic toggle is greyed out and its tooltip says to use an SVG for metallic art. With Fill set to **no ink** the toggle is greyed out: there is nothing to plate.
+- **Stroke.** One reset badge: beside the switch while the stroke is off, beside its colour while it is on. Optional outer stroke with its own colour, metallic flag, and width in px at 600 DPI (15px = 1.8pt). The physical width holds at any export DPI. Codes default the halo to white. Everything else defaults a dark keyline. A barcode can also turn on **Solid background**: the stroke colour fills the whole barcode box, quiet zone included, instead of only outlining the bars and digits.
+
+## Override badges [#override-badges]
+
+Badges sit just left of the control they reset. A **filled dot** means an enabled variant sets this property. A **ring** means this label overrides it; set the value back to the master's and the ring goes away. Each badge resets only its own source, so clearing your beer's edit cannot rewrite the shipped variant.
+
+## Fill contract [#fill-contract]
+
+**Template field settings**, folded at the foot of a text layer's inspector. This is what someone filling the layer is allowed to put in. It belongs to the master and shows up in Save Master review:
+
+- Field label (caption above the fill widget). Left blank, the caption names the input: **Number**, **Code**, or **Text**
+- **Input**: Rich text, Number, or Code. Number makes the fill a number box; Code validates it like a barcode, with its **Symbology**
+- **Minimum** and **Maximum** for a Number input (blank means no limit)
+- Choices (a list you can pick from; typing something new is still allowed and is learned once you commit it with Enter or by clicking away, on the canvas as in the sidebar)
+- Placeholder on empty text (on screen only: an empty field prints blank)
+- Suffix after a Number or Code value (`% alc by vol` and friends)
+
+
+# Layers (/docs/layers)
+
+Left list is every layer on the resolved label, **front to back**. Background texture and metallic mask sit at the bottom like any other image. No special Document group.
+
+Each row:
+
+- Kind icon (text, image, barcode, QR; texture and mask have their own)
+- Name. Double-click it to rename (or use the inspector's name box, or right-click → Rename)
+- A **variant badge** when a variant *adds* this layer, or when an enabled variant changes this master layer. Hover it: "Added by the Collab variant" or "Changed by the Collab variant". A row the variant adds turns grey while that variant is off, and its Show eye is crossed out
+- A **provenance mark** when an enabled variant overrides part of a master layer
+- **Show**, an eye in a fixed column. A crossed-out eye means the layer is hidden from both preview and exports; its name stays readable in grey. This is the saved, undoable `enabled` setting, not a session-only hide. Showing a layer whose variant is off also enables that variant; the tooltip names it
+- **Lock**, an open or closed padlock in the next fixed column. Click to lock or unlock on the canvas: drag, resize and nudge are prevented, but typed inspector values still apply. Page art (Background, Metallic mask) leaves this cell empty because it can't be dragged
+- **Remove** (trash), separated from the toggles in its own column, available only on selected rows. Undo restores removed layers
+
+Show and Lock stay visible without hovering, in a compact group at the right edge. Hover a control for its action and scope; there are no column headings. Each control keeps a 24px target, and positions stay fixed when you select, hide or lock a layer. Right-click any row for Rename, Lock (or Unlock; not on page art) and Remove.
+
+Drag a row to reorder. Up the list is toward the front. Delete or Backspace on a selected row removes it.
+
+Click a row to select it (inspector opens). The selected row is tinted blue. `⇧` extends. `⌘` / `Ctrl` toggles. Selecting a layer on the preview scrolls its row into view.
+
+## Header [#header]
+
+One line: the title, then the filter, then Add layer.
+
+- **Changed.** Only the layers you actually filled or overrode on this beer. Everything is fillable, so this is "what did I touch?"
+- **Variants.** Switch them on or off for this label in the Master picker above the list. See [Variants](/docs/variants).
+- **Add layer.** Text, Image, Barcode, or QR (also in the menu bar: Layer → Add Text Layer, and the Image, Barcode and QR rows under it). It lands on the version the master picker names (the base master, or a variant you switched to).
+
+## Page art [#page-art]
+
+The two bottom image layers are the **background** (rock texture) and the **mask** (metallic knockout). Drop files on the window, or onto the inspector's image field once the layer is selected. More on [Files](/docs/files).
+
+
+# Preview (/docs/preview)
+
+One preview, centre of the window. View → **Label** / **Mask** / **Rendered** / **Can** (keys `1` `2` `3` `4`), or pick one in the **Label | Mask | Rendered | Can** control in the status bar. With the divider anywhere between its ends the view is **Compare**: neither Label nor Mask is pressed or checked, and the status bar says *Compare*.
+
+## Label and mask [#label-and-mask]
+
+![Compare view: the mask on the left, blue where white ink prints, and the artwork on the right](/screenshots/label-mask-compare.webp)
+
+Both plates draw in place. Drag the divider by its grip (or focus it and use the arrow keys, Home and End) and the **white-ink layer** slides over the art so you can check registration. View → Label jumps the divider to artwork. View → Mask jumps it to the plate.
+
+Live preview uses a downscaled texture and mask so typing doesn't churn print-size images. Downloads always rebuild at full resolution.
+
+While export files are being built, the preview blurs under a **Building PDF…** or **Building PSD…** note (**Building PDFs…** or **Building PSDs…** with two-file export on), which screen readers announce. An export can start before the preview finishes loading, and shows its note in place of the loading spinner; on the can, the can's own *rendering…* spinner stands aside for it. Ordinary preview edits do not show this export indicator.
+
+## Zoom and pan [#zoom-and-pan]
+
+- Scroll or pinch over the 2D preview to zoom about the pointer (up to 2.5×)
+- **Right-button drag** pans (grabbing cursor). The browser context menu is off over the pane so this matches the 3D views
+- The **percentage** in the status bar is a readout *and* a control. Type a figure. `100` fits the view
+- View → Zoom In (`⌘=` or `⌘+`), Zoom Out (`⌘-`) and Zoom to Fit (`⌘0`) zoom about the middle of the pane, in 2D and 3D
+
+In 3D, 100% means "as framed" for that mode. 200% is twice as close. Typing 100 restores framing distance and leaves your orbit alone. Each 3D view frames so the label reads the same on-screen height as the 2D sheet (measured to the label's near face). Switch views and the subject changes, not the scale.
+
+## Rendered [#rendered]
+
+The same lit label as the can, laid flat: metallic foil where the mask leaves the stock bare, matte where white ink prints. It frames head-on at the same scale as the 2D sheet. Orbit to tilt it and catch the foil. Past edge-on you see the blank back of the stock. Pan and zoom work as on the can; the 1 / 4 count doesn't apply.
+
+**Curve** in the status bar bends the label around a vertical axis, the way it sits on a can: 0% is flat, 100% is the can's own curvature. It starts at a subtle 15%. The label bends without stretching, and the centre stays the same size on screen. The setting is per tab and isn't saved.
+
+## Can [#can]
+
+![The label wrapped around a can in the Can view](/screenshots/can.webp)
+
+Same plates, wrapped around a can. **1 / 4** in the status bar, or View → **One Can** / **Four-Pack** (also in the ⌘K palette), is one can or a 2×2 four-pack. Both are available only in the Can view. Orbit with the left button and pan with the right. With the can view focused, arrow keys pan and Shift plus arrows rotates.
+
+**Lighting** in the status bar turns the lights and reflections around the can, from -180° to 180° in 5° steps. 0° is the standard setup. The angle also lights the Rendered view, and Label Lab remembers it, like the rulers and guides.
+
+Settings → corner radius and edge softness are how the die-cut and foil edge read on the can and in Rendered. Preview/press appearance. They don't redraw the 2D plates, aside from bleed and DPI.
+
+## Rulers and guides [#rulers-and-guides]
+
+View → **Rulers** (`R`) and **Guides** (`G`). 2D only.
+
+- Ruler zero is the **trimmed** art's top-left, so bleed reads negative
+- Pick inches, millimetres, points or pixels (at the PSD resolution) from the ruler corner, or from View → **Units** when the rulers are hidden. It is the app's one unit: the rulers, the inspector's length fields, the move/resize readout on the canvas and the margin inset all follow it, and it is remembered next time. Font size and letter spacing stay in points; stroke width stays in 600-DPI pixels. The pixel unit follows Settings → PSD resolution.
+- Locked margin and centre guides come from the trim box. The margin control (ruler corner) sets the safe inset on all four sides
+- Drag from a ruler to add a **manual** guide, or use **Add vertical guide** / **Add horizontal guide** in the ruler-corner settings. Arrow keys move a focused guide by 1 pt (Shift: 10 pt). Kill it with the × in the ruler, by dragging it back into a ruler, or with Delete while it's focused. Manual guides snap to layers as you place them
+- **Guides** is one switch: trim line, margin and centre, and your manual guides, together
+
+Rulers, manual guides and the unit are view settings, not label content. They never enter a `.label` or an export.
+
+**Margin inset** is different: it is master geometry. It sits under **Master** in the ruler-corner settings, locked each time the settings open. Unlock it with the lock beside the heading, then set the safe inset for all four sides. Changing it leaves the master unsaved until **Save Master**.
+
+
+# Files (/docs/files)
+
+## Labels (`.label`) [#labels-label]
+
+File → **Save Label** (`⌘S`) / **Save Label As…** (`⇧⌘S`) writes a zip named from the beer. `<slug>.label`: lowercase, punctuation to dashes, cut at the last word break within 40 characters (`label` when the name is empty). Exports use the same name. Inside: the label JSON plus embedded art (texture, mask, image-layer files).
+
+On Chromium and in the desktop app, Save is a real dialog and later Save rewrites that file in place. Everywhere else it falls back to a download.
+
+File → **Open Label…** unpacks a `.label`. The file's `masterHint` (the `.master` it was saved with) is tried first, but only when it points inside the label's own folder or the folder of a master already in your library; a hint anywhere else is not read. Save stores that location relative to the label (for example `../Masters/Lolev.master`), so a label you share doesn't carry your computer's folder names. When the label and master share no folder below the top of the disk (or are on different drives), no location is stored and the label finds its master through your library. Labels saved by older versions, which stored the full path, still open. If that file can't be used, the master your library has for the label's id is used. Two `.master` files can share an id, so the label opens, and Save Master writes, the one it names, and your library keeps its own entry. When no master is found, a dialog titled “This label was made with a different master” asks what to do: **Use “…”** (the button names the tab's current master) to open the label on that master as last saved, **Locate .master…** to pick the file (it joins your library; if it can't be read, the error says why), or **Cancel**. Cancelling (here or in the Locate picker) leaves the window as it was: a tab opened just for that label closes again. Values that no longer match the master sit on a **bench** (dormant) instead of getting dropped, so a rebind can bring them back.
+
+Double-click a `.label` on desktop and it opens in Label Lab. A file that isn't a `.label` (Open With on another file, or a `.label` shortcut that points at one) shows a **Could not open label** error toast instead. Details in [Getting started](/docs/getting-started).
+
+Drop a `.label` anywhere on the window and it opens the same way: in the current tab if you haven't touched it, otherwise a new one. A dropped file has no save target, so its first Save works like Save As. Other files the app doesn't take (a PDF, an SVG outside an image field) are ignored.
+
+## Masters (`.master`) [#masters-master]
+
+Also a zip: `master.json` plus the same asset layout. Legacy JSON-only `.master` files still open.
+
+File → Open Master / Save Master / Save Master As lives under [Masters and labels](/docs/masters-and-labels).
+
+## Dropping texture and mask images [#dropping-images]
+
+PNG, JPEG, or WebP dropped **anywhere** in the window opens the background/mask chooser:
+
+- Left half of the window (or any JPEG): **texture**
+- Right half of the window, PNG or WebP: **mask**
+
+The chooser draws over the preview only, split where the window's middle falls, so the layer list and the inspector stay in full view while you aim.
+
+Dropping on an inspector image field wins and loads that field. Clicking a field still opens its picker.
+
+Background takes PNG, JPEG, or WebP. The mask takes PNG or WebP. The `.label` file keeps the image you dropped, WebP included. Only the PDFs get a PNG copy of a WebP, because the PDF embed handles PNG and JPEG only.
+
+In the combined print PDF, mask pixels become White Ink spot tints (blue = full ink, white = knockout). The optional legacy mask PDF embeds the PNG as-authored, with no recolouring. A JPEG aimed at the mask half of the chooser lands on the background instead.
+
+## Older configs [#older-configs]
+
+JSON configs from the pre-rewrite UI still open and migrate. Named fills (`gold` / `white` / `black`), a `qrData` field, missing stroke layers: they pick up current defaults so historical files print like they always have.
+
+
+# Masters and labels (/docs/masters-and-labels)
+
+Two files, on purpose.
+
+| File | What it is |
+| --- | --- |
+| **Master** (`.master`) | The brand. Size, background, mask, every layer, guides, named variants. Shared by every beer that wears this look. |
+| **Label** (`.label`) | This release. Which master, which variants are on, the filled values, and any overrides for this beer only. |
+
+What you see is the resolved label: master layers, plus enabled variant diffs, plus this beer's fills and overrides.
+
+## What writes where [#what-writes-where]
+
+- **Fills** (name, ABV, UPC, logos you drop) belong to the label.
+- **Property edits** (move, resize, colour, type) also belong to the label, as overrides. They do not rewrite the template until you promote them.
+- **Structure** (add, remove, reorder, rename a layer; new variant; guides; master name) writes the master in this session, and shows up when you save the master.
+- **Fill contract** (field label, placeholder, choices, number suffix, barcode symbology on a text-as-code field) is template vocabulary. Master.
+
+You can fill beers all day without drifting the brand. File → Save Master… is the gate.
+
+## Master picker [#master-picker]
+
+Top of the left sidebar. It shows which master and version this label uses, and where Save Master promotions go.
+
+- This label's master comes first, then its **variants as versions**, with a check mark on the one you're editing. Switch a version and a later Save Master or promotion lands in that variant, not the base master.
+- **Other masters** lists the rest of the library. When two masters share a name, each shows its file name and the day it was last used on this computer. The built-in Starter master reads **Built in**; a master opened in the browser reads **No file**.
+- **New Variant** sits at the foot of the menu (also in the `⌘K` palette).
+- **Save Master…** appears at the end of the picker's row while the master itself has unsaved changes, such as a layer added, removed or reordered. It reads **Save Variant…** while a variant is the version.
+
+Moving, restyling or filling a layer is a label override that `⌘S` saves; it doesn't bring up Save Master. To promote overrides into the master, use File → Save Master…, which stays enabled while the label has any.
+
+### Switching masters [#switching-masters]
+
+Picking another master switches this label to it at once:
+
+- Filled fields or variants the new master can't show move to the bench.
+- A **Switched to “…”** toast names them and offers **Undo**. Undo, or `⌘Z`, puts the label back on its old master with everything it had.
+- Art the switch filled into an empty texture, mask or image slot stays after Undo. Clear it by hand if you don't want it.
+
+### Removing a master from the library [#removing-a-master-from-the-library]
+
+The **×** on a master's row, or Delete on the highlighted row, removes it from the library on this computer. The `.master` file stays where it is, and **Undo** puts it back. A remembered master whose file has been deleted, with no saved copy, is dropped from the library when you pick it.
+
+## Save Master [#save-master]
+
+File → **Save Master…** (or **Save Master As…**) writes the template. When this label has nothing to promote, it writes straight away (Save Master As goes straight to the save dialog), and a toast says **Saved lolev.master** with *3 changes* under it. An image the master can't carry (the label names it, but its file is missing) gets a warning toast of its own.
+
+When the label has overrides or filled values that could go into the master, a review opens first:
+
+- Structural rows (added, removed, reordered, renamed), as a plain list: they are already in the master. Moving one layer lists that layer alone, not every layer it passed
+- Fill-contract edits, listed the same way
+- This label's overrides and values, each with a tick, so you can **promote** them into the master (or the version the picker names)
+
+One tick can promote everything. Confirm, and the `.master` file writes. Save Master As mints a new master id, rebinds this document onto it, and writes the new file.
+
+Save Master writes back to the file this master was opened from or last saved to. Undo back past Open Master, a library pick, or Save Master As, and Save Master asks where to save instead of reusing the other master's file.
+
+File → **Open Master…** loads a template from disk and adds it to the library. It also switches this label to it at once, like picking it in the master picker, with the same toast and the same Undo and ⌘Z. Save Master then writes to the opened file. The desktop app remembers the real path, so a restart finds it. The browser keeps copies of the 20 masters you most recently opened, saved or used, so a reload does not sneak you back to shipped Lolev. A master you haven't touched in 20 others is dropped from the browser; open its file again to bring it back.
+
+Opening a label reads that master file. If the file was saved again over the same path (Save Master As writes a new id), the label follows the file. It does not reopen an older copy remembered from the id the label still names. Saving the label records the new id.
+
+<Callout title="Untitled tabs">
+  A new tab reopens the last master you applied — which layers exist and where they sit. Fillable text (name, style, ABV, and the like) and the beer's background, mask and Collab logos stay off; those belong to a `.label`. Template copy such as the wordmark, and images placed in the master such as a script logo, stay. The built-in Starter master is the fallback when you have never applied a master. A label saved on a master this computer has no file for asks you to locate its `.master` once.
+</Callout>
+
+
+# Variants (/docs/variants)
+
+A **variant** is a named, toggleable diff on a master. It can override properties on existing layers and **add** layers that only exist while it's on. The master picker shows one working version at a time.
+
+The Lolev master (`masters/lolev.master`) includes **Collab**. Off, nothing collab draws. That's every regular release. On, the partner block shows up: usually a lead-in line, a left-column logo under the description, and a centre logo under the laurel. Drop SVG, PNG, or JPG into those image layers. SVG takes the slot's fill, layer, and stroke. Raster art prints as-is and gets a white-ink underlay so it doesn't sit on the metallic texture. The underlay follows the image's transparency: transparent pixels get no white ink.
+
+## Choose a version [#choose-a-version]
+
+Choose **Collab** under the current master in the master picker to show that version on this label. Choose the base master to return to the base version. The same choice sets where promotions in the **Save Master** review are written.
+
+A layer a variant adds wears the variant's name as a badge and dims while the variant is off.
+
+## New variant [#new-variant]
+
+**New Variant** at the foot of the master picker, or New Variant in the `⌘K` palette. Empty variant on this master, enabled on this label, and you're switched onto it so you can name it and add layers.
+
+Once you're on a variant, **Rename Variant…** and **Delete Variant** sit under New Variant at the foot of the picker (Delete asks no confirm; a note under the picker says `⌘Z` brings the variant back). **Save Variant…** appears beside the picker once the master itself has unsaved changes, and saves its changes the way Save Master does (straight away, or through the review when the label has something to promote, written into this variant; File → Save Master… reads Save Variant… too while you are on one).
+
+
+# Export (/docs/export)
+
+File → Export, the palette, `⌘E` and `⇧⌘E`:
+
+| Action | Keys | Files |
+| --- | --- | --- |
+| Export PDF | `⌘E` | `{name}.pdf`: artwork plus a **White Ink** spot layer |
+| Export PDF As… | | the same print PDF, somewhere new |
+| Export PSD | `⇧⌘E` | `{name}.psd`: art layers plus a **White Ink** spot channel |
+| Export PSD As… | | the same PSD, somewhere new |
+
+With **Settings → Two-file export (art + mask)** on, `⌘E` and `⇧⌘E` save art + mask pairs instead (see [Two-file export](#two-file-export)).
+
+## White Ink in the print PDF [#white-ink-in-the-print-pdf]
+
+The single PDF contains the artwork, followed by a top layer named exactly **White Ink**. Its spot swatch has the same name and a 100% magenta alternate colour. White-ink text and barcode digits are outlined; artwork text stays live with embedded subset fonts. White fills and strokes overprint, so they affect the white separation without knocking out the process-colour artwork.
+
+In **Adobe Acrobat → Print Production → Output Preview**, enable **Overprint Preview** and inspect **Separations**. Check that **White Ink** is listed, and toggle it to inspect the underlay against the artwork. The magenta preview represents white ink; it is not magenta process ink.
+
+**Viewer caveat:** macOS Preview and other viewers without overprint preview may show opaque magenta and white shapes over the artwork. Do not judge the final print from that composite. Enable Overprint Preview manually in Acrobat. Obtain a proof accepted by the printer before production.
+
+An uploaded mask becomes a single-channel spot image: blue (`R=0`) is full white ink, white (`R=255`) is knockout, and intermediate red values retain partial ink coverage. PNG transparency is preserved: fully transparent pixels leave earlier white ink untouched, and partial alpha blends with it. No mask uploaded? The white separation floods the page. Metallic elements still knock out to bare stock on top of that flood.
+
+Each element has a **fill** (artwork ink; `none` for no ink) and a **plate** (metallic knocks out white ink; white gets a white-ink underlay). Outer strokes have their own independent plate. White-ink runs inside a text line (`_white ink_` / the White ink underlay toggle) follow the same rule per span.
+
+Barcodes ship as near-black bars inside a white halo over white ink. The white separation follows each bar and each digit's outline. Where the halo is wider than the gaps between bars it closes into one shape. **Solid background**, off unless enabled on the layer, fills the barcode box with the stroke colour.
+
+## Saving exports [#saving-exports]
+
+In the desktop app:
+
+- **The first export in a tab** asks where to save. The dialog opens beside the tab's `.label`, named after it (`Lupula.label` suggests `Lupula.pdf`). An unsaved label suggests the beer name instead.
+- **Every later export of that kind** rewrites the remembered destination without a dialog. A **Saved …** toast names the files written (by file name, not folder); on the desktop it offers **Show in Finder** (**Show in File Explorer** on Windows, **Show in Folder** on Linux) to reveal the first one.
+- **Export … As…** asks again, opening on the current file, and remembers the new place. Cancelling keeps the old destination.
+- For paired exports, the mask goes beside the art file as `{chosen name}-mask.pdf` or `.psd`, without a second desktop dialog. Confirming the art file confirms replacing the pair.
+- The combined PDF already carries the white ink. If an older `{chosen name}-mask.pdf` from a two-file export sits beside it, the **Saved …** toast becomes a warning so only one file goes to the printer. Label Lab never deletes the old mask.
+
+The one-file PDF, one-file PSD, PDF pair and PSD pair destinations are each remembered separately until the tab closes, quits, opens another label, or the label is saved under a new name (Save Label As…). In a browser each output file has its own save dialog or download.
+
+Exports do not wait for the preview. They rebuild from full-size assets, preserving PDF vectors and uploaded-image resolution. **Settings → PSD resolution** controls only PSD raster resolution (default 600 DPI).
+
+If a write fails, a **Couldn't save** toast names the file and the reason. In a browser, where the mask has its own save dialog, cancelling it leaves the art file saved and offers **Export again**.
+
+The combined PDF title is `{Name} label`. All PDF exports declare the **TrimBox** (the 8 × 5in die centred in the bleed), **BleedBox** (the whole page), and a **Producer** naming the Label Lab version.
+
+## When export is blocked [#when-export-is-blocked]
+
+While the label is invalid, Export builds nothing and shows a **Can't export yet** toast with the reason. **Show layer** opens the Layers sidebar, selects the first invalid layer and puts the cursor in its value field. In the Layers list an invalid layer's row turns red with a red dot; hover it to read the reason. A blank or turned-off barcode doesn't block export. A layer that runs past the label edge also gets a red dot, but still exports.
+
+## Two-file export (art + mask) [#two-file-export]
+
+Turn on **Settings → Two-file export (art + mask)** and the export menu and palette swap the one-file exports for pairs:
+
+| Action | Keys | Files |
+| --- | --- | --- |
+| Export PDFs | `⌘E` | `{name}.pdf` (artwork only) and `{name}-mask.pdf` |
+| Export PDFs As… | | the same PDF pair, somewhere new |
+| Export Artwork PDF / Export Mask PDF | | one plate; always asks where |
+| Export PSDs | `⇧⌘E` | `{name}.psd` (art layers, no White Ink channel) and `{name}-mask.psd` |
+| Export PSDs As… | | the same PSD pair, somewhere new |
+
+On the mask files, **blue = white ink** and **white = knockout** (silver stock shows through).
+
+The uploaded raster in the legacy mask PDF is embedded as-authored. The 3D preview classifies mask pixels by brightness for its metalness map (bright/unsaturated = foil, any ink colour = matte white ink); that classification is preview only.
+
+## Photoshop [#photoshop]
+
+The PSD is the editable RGB handoff. Text becomes type layers. Logo and QR become vector shapes. Outer strokes are layer effects. The description is one type layer with style runs. The barcode is one merged shape (bars plus digit outlines), not editable type.
+
+The PSD declares the export resolution (600 ppi unless you change PSD resolution in Settings). Photoshop may prompt to **Update** text layers on open: ag-psd writes text data without a rendered bitmap. Choose Update.
+
+White ink is a spot channel named **White Ink** under **Channels**, built from the mask plate the way the print PDF builds its White Ink layer (full ink where the mask is blue, none where it is white). It shows at 0% solidity, so the art looks as-is on screen and toggling its eye changes nothing. To see the underlay, click **White Ink** alone: Photoshop shows it in grayscale, dark where the press lays ink. Above it sits **Transparency**, an all-opaque channel Photoshop keeps for the merged image. The saved preview is the art drawn at full resolution, so Finder, Quick Look and Preview show the label. The PDF is the print handoff.
+
+With two-file export on, the mask PSD carries the white ink instead. It mirrors the legacy mask PDF: a knockout base, the recoloured mask raster (or a white-ink flood), then every element by its plate.
+
+## CMYK [#cmyk]
+
+PDF exports do not embed an output ICC profile or claim PDF/X compliance. Colour-profile embedding is deferred under [issue #675](https://github.com/energee/art-files/issues/675); CMYK fills and the White Ink spot separation remain available.
+
+Hex colours print as RGB (neutral greys and black as gray, so they stay on the black plate). A fill typed as `cmyk(c,m,y,k)` (see [Colour](/docs/inspector#colour)) writes those exact CMYK percentages. Images and textures stay RGB. **White Ink** is a separate spot colour.
+
+`tools/to-cmyk.sh` still converts an export to CMYK with Ghostscript's generic profile, for a printer that takes CMYK only.
+
+Conversion is not scan certification: verify exact QR and barcode payloads on the converted artwork and on the printer's proof/stock. The Lolev master's dots QR uses error correction Q; changing approved QR artwork still requires printed-label scan approval.
+
+
+# Settings (/docs/settings)
+
+**Settings…** (`⌘,`): on the Mac app it is in the **Label Lab** menu; on Windows, Linux and in the browser it is under **Edit**. Settings stick on this machine and do not live in the `.label` file.
+
+The dialog groups them under Language, Output, and Can preview. The theme is not here: it is View → Appearance or the `⌘K` palette.
+
+## Language [#language]
+
+Choose **English**, **Español**, **Français**, **Deutsch**, or **Português** (Brazilian). **Use system language** follows the first supported language in your system preferences; if none is supported, the app uses English. Your choice is remembered on this machine.
+
+Menus, controls, descriptions, tooltips, and accessibility labels switch immediately. New app-authored messages use the selected language; notices already shown keep the language they were created in. Switching does not close your tabs or change unsaved label content. Beer names, layer and master names, artwork, filenames, and keyboard shortcuts stay as they are. Release notes, this guide, and messages supplied by the operating system or plugins keep their original language. On macOS, the parts the system draws (Open and Save panels, Start Dictation, Emoji & Symbols) follow the macOS language rather than this setting; to give Label Lab its own language there, use System Settings › General › Language & Region › Applications and reopen the app.
+
+Dates follow the selected app language. Numeric editing keeps its existing decimal-point format, so changing language does not change how dimensions are entered.
+
+## Output [#output]
+
+| Control | What it does |
+| --- | --- |
+| **PSD resolution** | PSD raster resolution, which also sizes the Pixels length unit (72–1200 DPI, default 600). PDFs keep vector geometry and embed uploaded art at its original resolution. |
+| **Bleed** | Extra around the trim. Geometry for both plates. Ruler zero stays at trim. |
+| **Two-file export (art + mask)** | Off by default: `⌘E` saves one PDF and `⇧⌘E` one PSD, each with White Ink inside. On: they save art + mask pairs instead, and the single artwork and mask PDFs show in the export menu. |
+
+## Can preview [#can-preview]
+
+| Control | What it does |
+| --- | --- |
+| **Corner radius** | Die-cut corner radius in inches (house die: 1/16 inch), shown on the 3D can. |
+| **Edge softness** | Foil-edge blur in inches, shown on the can preview. |
+
+Bleed and PSD resolution change what gets built. Corner radius and edge softness are how the can preview presents the press. They don't redraw the 2D plates.
+
+
+# Headless generate (/docs/generate)
+
+Same resolve, plan, and build path as the app. No window. The CLI uses the master’s bleed and 600-DPI PSD output; it does not read the app’s local Settings. WebP assets must be converted to PNG/JPEG first.
+
+## Basic run [#basic-run]
+
+```bash
+npm run generate -- beer.master values.json ./out
+# writes {name}.pdf (art + White Ink spot), {name}.psd, {name}-mask.psd
+
+npm run -s generate -- beer.master --inspect
+# prints the master's layer ids (the keys values.json uses)
+```
+
+`values.json` is keyed by layer id (`name`, `abv`, `description`, `barcode`, …). Text layers take a string. Rich layers still understand the markdown subset: `# header`, `**bold**`, `_white ink_`.
+
+## Batches [#batches]
+
+A JSON array is a batch, one output set per job. A job can also be `{values, variants, files, overrides}`. `overrides` patches layer fields and is type-checked against the layer before anything builds. Colours there, and in styled lines, take 3- or 6-digit hex (`#fff` reads as `#ffffff`), `cmyk(c,m,y,k)` percentages, or `none`; a named colour such as `gold` is an error. A batch is validated, read, and built whole before the first file is written. A bad job anywhere leaves nothing on disk.
+
+A spreadsheet becomes a batch with any CSV-to-JSON tool. Name the columns after layer ids, export CSV, then, for example:
+
+```bash
+npx csvtojson batch.csv > batch.json
+```
+
+## Flags [#flags]
+
+```bash
+npm run generate -- beer.master values.json ./out \
+  --variant collab --asset collabLeft=./logo.svg --format pdf
+
+# values from stdin
+npm run generate -- --master beer.master \
+  --values - --out ./out
+
+npm run generate -- --master beer.master \
+  --label run.label --out ./out
+
+npm run generate -- beer.master values.json ./out \
+  --set name=X
+```
+
+- `--variant id`: enable a variant (union with variants already on a `--label`)
+- `--asset layerId=path`: attach an image file. `--asset background=` / `mask=` need a master with that role layer
+- `--format pdf` or `psd`: emit only the print PDF or only the PSD pair. Default emits both formats
+- `--two-file`: emit the legacy artwork PDF and blue/white mask PDF instead of the combined print PDF. Works with master, batch and label inputs; PSD output is unchanged. A later run without `--two-file` into the same folder warns on stderr if the older `{name}-mask.pdf` is still there; it is never deleted.
+- `--set id=value`: overlay one value on every job
+- `--inspect`: JSON on stdout, exit 0. Use `npm run -s` when piping output so npm does not add its banner
+- `--check`: validate every job and print its errors and warnings, then stop. Nothing is built or written, so no output directory is needed (one given is ignored). Exit 0 when every job passes
+
+The CLI always writes the PSD pair, with black flattened previews. The app's one-file PSD with a **White Ink** channel draws the mask plate on a browser canvas, which the CLI doesn't have.
+
+## Checking without building [#checking-without-building]
+
+`--check` catches what a full run would reject: unknown layer ids, bad values and overrides, invalid barcodes, missing image files, two jobs writing the same file, and characters the layer's font has no glyph for (they would print as empty boxes, so export refuses them). It does not decode images, so a corrupt or unsupported image file still fails only in the full run.
+
+```bash
+npm run generate -- beer.master batch.json --check
+```
+
+## Paths and exit codes [#paths-and-exit-codes]
+
+Relative paths resolve against the directory you run `npm run generate` from, even though npm runs the script from the repo root.
+
+Exit codes: **0** wrote everything (with `--check`: every job is valid), **1** a job or input was rejected, **2** bad argv.
+
+
+# Keyboard shortcuts (/docs/shortcuts)
+
+Single-key shortcuts stand aside while a text field, menu, dialog, or dropdown
+has focus. `⌘` shortcuts work everywhere, even while typing in a field, except
+Undo and Redo, which undo the field's own typing there. While a dialog such as
+Settings or Save Master is open, every shortcut below (file, edit, view, the
+sidebar toggle and the arrow-key nudge) and the menu commands leave the tab
+behind it alone: close the dialog first.
+
+## File and edit [#file-and-edit]
+
+| Action | Keys |
+| --- | --- |
+| New tab | `⌘N` |
+| Open label | `⌘O` |
+| Close tab | `⌘W` |
+| Save label | `⌘S` |
+| Save label as | `⇧⌘S` |
+| Export PDF (Export PDFs with two-file export on) | `⌘E` |
+| Export PSD (Export PSDs with two-file export on) | `⇧⌘E` |
+| Undo | `⌘Z` |
+| Redo | `⇧⌘Z` or `⌘Y` |
+| Command palette | `⌘K` / `Ctrl+K` |
+| Settings | `⌘,` |
+
+On Windows and Linux, `⌘` is `Ctrl`.
+
+## View [#view]
+
+| Action | Keys |
+| --- | --- |
+| View → Label | `1` |
+| View → Mask | `2` |
+| View → Rendered | `3` |
+| View → Can | `4` |
+| View → One Can / Four-Pack | View menu or ⌘K (Can view only) |
+| Rulers | `R` |
+| Guides | `G` |
+| Layers sidebar | `⌘B` (outside fields and dialogs) |
+| Zoom in | `⌘=` or `⌘+` |
+| Zoom out | `⌘-` |
+| Zoom to fit | `⌘0` |
+
+## Canvas [#canvas]
+
+| Action | Keys |
+| --- | --- |
+| Nudge selection | Arrow keys (1 pt) |
+| Coarse nudge | `⇧` + arrow (10 pt) |
+| Remove selected layers | Delete / Backspace (from the Layers list or the canvas; not while typing in a field, with a button focused or from inside a toast) |
+| Remove a master from the library | Delete (on its highlighted row in the open master picker) |
+| Reorder selected layers | `⌥↑` / `⌥↓` on macOS; `Alt+↑` / `Alt+↓` on Windows/Linux (focus a selected Layers row) |
+| Finish an on-preview text edit, keeping the text | Esc or a click away (Enter too in a one-line box) |
+| Close inspector | Esc (when no field is being edited), or the inspector's ✕ |
+| Pan | Right-button drag |
+| Zoom | Scroll or pinch. Type a % in the status bar |
+
+Export PDF As…, Export PSD As…, Open Master, Save Master, View → Appearance, View → Units and the Layer menu's **Add Text / Image / Barcode / QR Layer** and **Remove Layer** live in the menus and the palette. With two-file export on, the As… pairs and the single artwork and mask PDFs have no shortcuts. New Variant is in the palette and at the foot of the master picker, not the menus. None of these has a dedicated key, except Remove Layer's Delete / Backspace above (the menu shows `⌫` as a reminder).
+
+While the label is invalid, `⌘E` and `⇧⌘E` export nothing and show a **Can't export yet** toast with the reason; its **Show layer** button selects the first invalid layer and focuses its value field.
+
+
+# Getting started (/docs/getting-started)
+
+## Download Label Lab [#download-label-lab]
+
+Download the installer for your computer from [GitHub Releases](https://github.com/energee/art-files/releases): a DMG for macOS, `setup.exe` for Windows, an AppImage for Linux (Debian 13 "trixie" and newer). Published Mac builds are ad-hoc signed and Windows builds unsigned for now, so Gatekeeper or SmartScreen may warn the first time you open it.
+
+To run it from source instead, see the [README](https://github.com/energee/art-files#develop).
+
+Double-click a `.label` and it opens in Label Lab, even if the app is already running: the window comes to the front, even from minimized. New tab, or it focuses the tab that already has that file. On Linux the association shows up once the AppImage is desktop-integrated. `Label_Lab.AppImage path/to/file.label` works either way.
+
+Published builds check the configured update feed after launch and when the window comes back. On macOS, **Label Lab → Check for Updates…** requests a check on demand. On Windows and Linux, use **Help → Check for Updates…**. An update found by an automatic check appears in the status bar; when you're already up to date the status bar stays empty, and only a check you asked for says so. **Restart Now** (or **Install and Restart** on Windows) first walks any unsaved tabs the way quitting does, and Cancel there keeps Label Lab running. If an install fails, **Try again** installs the same update again. Development builds do not receive automatic updates.
+
+## Your first label [#your-first-label]
+
+An untitled tab brings back the last master you applied (File → Open Master…, Save Master…, or the picker) — the layers and their positions, not that beer's name or art. Never applied one? You get the built-in **Starter** master: name, style, ABV, volume, description and the government warning, with no logo or brand. Given a `.master` file for your brand? Open it once (File → Open Master…); the library remembers it.
+
+1. Check the master at the top of the left sidebar (see [Masters and labels](/docs/masters-and-labels#master-picker)).
+2. Drop a rock texture on the window (PNG, JPEG, or WebP). While you drag, the preview splits into two drop zones: left for the background, right for the metallic mask. Optional: drop a metallic mask (PNG or WebP) on the right half. See [Dropping texture and mask images](/docs/files#dropping-images).
+3. Click **Name** in the [Layers](/docs/layers) list and type this beer.
+4. Fill ABV, style, description and the rest from the [inspector](/docs/inspector).
+5. File → Export → [Export PDF](/docs/export) once the label is valid. The print file contains the artwork and a White Ink spot layer; [inspect it in Acrobat](/docs/export#white-ink-in-the-print-pdf) with Overprint Preview enabled.
+
+
+# Overview (/docs)
+
+You start from a master (the brand's template) and fill in this beer's copy and art.
+
+Export writes one PDF with vector artwork, original-resolution images and an overprinting **White Ink** spot layer. Check the separation in Acrobat's Output Preview with Overprint Preview enabled; viewers without it may show magenta and white shapes instead of the intended composite.
+
+**Settings → Two-file export (art + mask)** switches `⌘E` and `⇧⌘E` to separate artwork and mask files.
+
+On the mask, **blue is white ink** and **white is knockout**. Bare metallic stock shows through the holes. No mask image loaded? The plate floods full blue. That's "print this as a white label." Metallic type and marks still knock out to stock on top of the flood.
+
+Need a designer in the loop? Export the same geometry as Photoshop files.
+
+## The window [#the-window]
+
+Three regions:
+
+1. **Layers** (left): master and version picker, every layer on this label
+2. **Preview** (centre): the 2D sheet, the white-ink reveal, or a 3D can
+3. **Inspector** (right): opens when you pick a layer. Content, type, position, colour
+
+Tabs hold more than one label. Filling *this* beer never quietly rewrites the template. Moves, colours, and copy land on the label. The master only changes when you choose Save Master.
+
+## Start here [#start-here]
+
+<Cards>
+  <Card title="Getting started" href="/docs/getting-started" description="Download Label Lab and fill your first label." />
+  <Card title="Masters and labels" href="/docs/masters-and-labels" description="What the master and the label each hold, and Save Master." />
+  <Card title="Editing" href="/docs/editing" description="Selecting, typing, moving and undo." />
+  <Card title="Export" href="/docs/export" description="The print PDF, two-file export and PSDs." />
+</Cards>
+
+
+# Workspace (/docs/workspace)
+
+## Layout [#layout]
+
+![Label Lab with the Layers list on the left, the label in the preview, and the inspector open on the right](/screenshots/workspace.webp)
+
+- **Menubar.** File, Edit, Layer, View. In the browser it lives in the window, and the tab icon is the desktop app icon. Every row carries an icon: the Mac menu shows Apple's standard symbols (they follow light and dark mode), and the browser draws the closest match. On desktop those actions sit in the native menu (macOS menu bar, window menu everywhere else), checkmarks and disabled states included, so the in-window copy goes away.
+- **Tabs.** One tab per open label, under the menubar. Own undo, own dirty state, own save target.
+- **Layers sidebar.** Master picker plus the list. Collapse it from the header button, View → Layers, or `⌘B`.
+- **Preview.** The sheet, the mask reveal, the flat rendered label, or the 3D can. Status bar underneath: zoom and the Label | Mask | Rendered | Can view control.
+- **Inspector.** Right-hand sheet, open while a layer is selected. Not a modal. You can still click the list and the preview.
+
+On macOS the desktop app draws everything around the preview (sidebar, tabs, header, status bar, inspector) on Liquid Glass, so the windows behind show through, blurred. The preview itself stays solid so the glass never changes how your artwork looks.
+
+**Settings** (bleed, PSD resolution, corner radius) and the View → Appearance theme, plus your colour swatches, stick around on this machine. They do not ride in the `.label` file.
+
+## Tabs [#tabs]
+
+**File → New Tab** (`⌘N`) opens an untitled canvas on the last master you applied (layers and positions only — not the previous beer's fills or art). **Open Label…** (`⌘O`) loads a `.label` into the current tab if it is an untitled tab you haven't touched, otherwise a new one. A file you opened stays put, even unedited.
+
+In the desktop app, **File → Open Recent** lists the last ten `.label` files you opened or saved to a new file (Save As, or the first Save), newest first, by file name (a folder name is added when two files share a name). Choosing one opens it just like double-clicking it in Finder. A file that has since moved or been deleted shows a **Could not open label** error toast and drops off the list. **Clear Menu** empties the list. The list is kept on this machine, like Settings.
+
+**Close Tab** (`⌘W`), the × on a tab, or Delete (or Backspace) on a focused tab asks Save / Discard / Cancel when that tab has real work on it. Unsaved master edits (a layer added, removed, or reordered in the template) count too, even after the label itself is saved. The prompt's Save keeps both: when the master has unsaved edits it saves the master first, exactly as **File → Save Master…** does (straight to the file, or the review when the label has overrides to promote), then the `.label`, and closes the tab. Cancel the review or a save dialog (or a failed save) and the tab stays open. When you are quitting, that also stops the quit. Closing the window or quitting walks every dirty tab through the same prompt, worded for quitting (Cancel keeps Label Lab open). With more than one dirty tab you're asked once first: **Review Changes…** walks them one prompt at a time, **Discard All** quits without saving any, **Cancel** keeps Label Lab open. That applies to `⌘Q`, and on macOS also Dock → Quit, logging out, or shutting down (Label Lab stops the logout until you've decided; if the prompt does not appear, choosing Quit again within a few seconds quits anyway). On Windows, logging out or shutting down closes Label Lab without the prompt, so unsaved work is only kept by the recovery snapshot. The browser build uses the generic leave-page warning instead.
+
+The active tab shows its × dimmed at all times; other tabs show theirs on hover. A tab with unsaved changes shows a • in that spot instead, which is also its close button.
+
+Background tabs keep state and assets. They drop the rendered preview. Switch back and it rebuilds like usual.
+
+A fresh Untitled tab starts "dirty" so Save is live, and it closes without a fuss if you never edited it.
+
+## Command palette [#command-palette]
+
+`⌘K` / `Ctrl+K`. Every menu command, grouped and named as the menus show them (File, Export, Edit, Layer, View, Units, Appearance). A view or toggle that is on shows a check mark, as in the menu. **New Variant**, which is in no menu, is listed last under Other. Type a menu name to narrow it down: "view label" finds the Label view, "appearance dark" the dark theme.
+
+## When something's wrong [#when-somethings-wrong]
+
+Messages appear as toasts at the bottom of the preview. Notes about something that worked fade on their own; warnings and errors stay until you close them or fix what caused them. An invalid value also shows where it is: its layer's row in the Layers list turns red and gives the reason. If the label can't export, see [When export is blocked](/docs/export#when-export-is-blocked).
+
+A **Something went wrong** toast means a save, export or open broke somewhere unexpected. Your tabs are untouched, but check that the last action actually finished before relying on it.
+
+## Crash recovery [#crash-recovery]
+
+Tabs with unsaved changes keep a recovery copy as you work. If Label Lab crashes or is forced to quit, the next launch offers them back: **Restore** reopens each one as an unsaved tab, **Discard** throws the copies away. On the desktop app, a restored tab that came from a `.label` saves back to that file, as long as the file is still there, hasn't been changed since that tab last opened or saved it, and isn't open in another tab. Otherwise Save asks where to write it, and a warning toast names the original file. Closing the offer without choosing keeps them for next time. Changes from the last couple of seconds before a crash may be missing.

@@ -1,0 +1,84 @@
+# Export (/docs/export)
+
+File → Export, the palette, `⌘E` and `⇧⌘E`:
+
+| Action | Keys | Files |
+| --- | --- | --- |
+| Export PDF | `⌘E` | `{name}.pdf`: artwork plus a **White Ink** spot layer |
+| Export PDF As… | | the same print PDF, somewhere new |
+| Export PSD | `⇧⌘E` | `{name}.psd`: art layers plus a **White Ink** spot channel |
+| Export PSD As… | | the same PSD, somewhere new |
+
+With **Settings → Two-file export (art + mask)** on, `⌘E` and `⇧⌘E` save art + mask pairs instead (see [Two-file export](#two-file-export)).
+
+## White Ink in the print PDF [#white-ink-in-the-print-pdf]
+
+The single PDF contains the artwork, followed by a top layer named exactly **White Ink**. Its spot swatch has the same name and a 100% magenta alternate colour. White-ink text and barcode digits are outlined; artwork text stays live with embedded subset fonts. White fills and strokes overprint, so they affect the white separation without knocking out the process-colour artwork.
+
+In **Adobe Acrobat → Print Production → Output Preview**, enable **Overprint Preview** and inspect **Separations**. Check that **White Ink** is listed, and toggle it to inspect the underlay against the artwork. The magenta preview represents white ink; it is not magenta process ink.
+
+**Viewer caveat:** macOS Preview and other viewers without overprint preview may show opaque magenta and white shapes over the artwork. Do not judge the final print from that composite. Enable Overprint Preview manually in Acrobat. Obtain a proof accepted by the printer before production.
+
+An uploaded mask becomes a single-channel spot image: blue (`R=0`) is full white ink, white (`R=255`) is knockout, and intermediate red values retain partial ink coverage. PNG transparency is preserved: fully transparent pixels leave earlier white ink untouched, and partial alpha blends with it. No mask uploaded? The white separation floods the page. Metallic elements still knock out to bare stock on top of that flood.
+
+Each element has a **fill** (artwork ink; `none` for no ink) and a **plate** (metallic knocks out white ink; white gets a white-ink underlay). Outer strokes have their own independent plate. White-ink runs inside a text line (`_white ink_` / the White ink underlay toggle) follow the same rule per span.
+
+Barcodes ship as near-black bars inside a white halo over white ink. The white separation follows each bar and each digit's outline. Where the halo is wider than the gaps between bars it closes into one shape. **Solid background**, off unless enabled on the layer, fills the barcode box with the stroke colour.
+
+## Saving exports [#saving-exports]
+
+In the desktop app:
+
+- **The first export in a tab** asks where to save. The dialog opens beside the tab's `.label`, named after it (`Lupula.label` suggests `Lupula.pdf`). An unsaved label suggests the beer name instead.
+- **Every later export of that kind** rewrites the remembered destination without a dialog. A **Saved …** toast names the files written (by file name, not folder); on the desktop it offers **Show in Finder** (**Show in File Explorer** on Windows, **Show in Folder** on Linux) to reveal the first one.
+- **Export … As…** asks again, opening on the current file, and remembers the new place. Cancelling keeps the old destination.
+- For paired exports, the mask goes beside the art file as `{chosen name}-mask.pdf` or `.psd`, without a second desktop dialog. Confirming the art file confirms replacing the pair.
+- The combined PDF already carries the white ink. If an older `{chosen name}-mask.pdf` from a two-file export sits beside it, the **Saved …** toast becomes a warning so only one file goes to the printer. Label Lab never deletes the old mask.
+
+The one-file PDF, one-file PSD, PDF pair and PSD pair destinations are each remembered separately until the tab closes, quits, opens another label, or the label is saved under a new name (Save Label As…). In a browser each output file has its own save dialog or download.
+
+Exports do not wait for the preview. They rebuild from full-size assets, preserving PDF vectors and uploaded-image resolution. **Settings → PSD resolution** controls only PSD raster resolution (default 600 DPI).
+
+If a write fails, a **Couldn't save** toast names the file and the reason. In a browser, where the mask has its own save dialog, cancelling it leaves the art file saved and offers **Export again**.
+
+The combined PDF title is `{Name} label`. All PDF exports declare the **TrimBox** (the 8 × 5in die centred in the bleed), **BleedBox** (the whole page), and a **Producer** naming the Label Lab version.
+
+## When export is blocked [#when-export-is-blocked]
+
+While the label is invalid, Export builds nothing and shows a **Can't export yet** toast with the reason. **Show layer** opens the Layers sidebar, selects the first invalid layer and puts the cursor in its value field. In the Layers list an invalid layer's row turns red with a red dot; hover it to read the reason. A blank or turned-off barcode doesn't block export. A layer that runs past the label edge also gets a red dot, but still exports.
+
+## Two-file export (art + mask) [#two-file-export]
+
+Turn on **Settings → Two-file export (art + mask)** and the export menu and palette swap the one-file exports for pairs:
+
+| Action | Keys | Files |
+| --- | --- | --- |
+| Export PDFs | `⌘E` | `{name}.pdf` (artwork only) and `{name}-mask.pdf` |
+| Export PDFs As… | | the same PDF pair, somewhere new |
+| Export Artwork PDF / Export Mask PDF | | one plate; always asks where |
+| Export PSDs | `⇧⌘E` | `{name}.psd` (art layers, no White Ink channel) and `{name}-mask.psd` |
+| Export PSDs As… | | the same PSD pair, somewhere new |
+
+On the mask files, **blue = white ink** and **white = knockout** (silver stock shows through).
+
+The uploaded raster in the legacy mask PDF is embedded as-authored. The 3D preview classifies mask pixels by brightness for its metalness map (bright/unsaturated = foil, any ink colour = matte white ink); that classification is preview only.
+
+## Photoshop [#photoshop]
+
+The PSD is the editable RGB handoff. Text becomes type layers. Logo and QR become vector shapes. Outer strokes are layer effects. The description is one type layer with style runs. The barcode is one merged shape (bars plus digit outlines), not editable type.
+
+The PSD declares the export resolution (600 ppi unless you change PSD resolution in Settings). Photoshop may prompt to **Update** text layers on open: ag-psd writes text data without a rendered bitmap. Choose Update.
+
+White ink is a spot channel named **White Ink** under **Channels**, built from the mask plate the way the print PDF builds its White Ink layer (full ink where the mask is blue, none where it is white). It shows at 0% solidity, so the art looks as-is on screen and toggling its eye changes nothing. To see the underlay, click **White Ink** alone: Photoshop shows it in grayscale, dark where the press lays ink. Above it sits **Transparency**, an all-opaque channel Photoshop keeps for the merged image. The saved preview is the art drawn at full resolution, so Finder, Quick Look and Preview show the label. The PDF is the print handoff.
+
+With two-file export on, the mask PSD carries the white ink instead. It mirrors the legacy mask PDF: a knockout base, the recoloured mask raster (or a white-ink flood), then every element by its plate.
+
+## CMYK [#cmyk]
+
+PDF exports do not embed an output ICC profile or claim PDF/X compliance. Colour-profile embedding is deferred under [issue #675](https://github.com/energee/art-files/issues/675); CMYK fills and the White Ink spot separation remain available.
+
+Hex colours print as RGB (neutral greys and black as gray, so they stay on the black plate). A fill typed as `cmyk(c,m,y,k)` (see [Colour](/docs/inspector#colour)) writes those exact CMYK percentages. Images and textures stay RGB. **White Ink** is a separate spot colour.
+
+`tools/to-cmyk.sh` still converts an export to CMYK with Ghostscript's generic profile, for a printer that takes CMYK only.
+
+Conversion is not scan certification: verify exact QR and barcode payloads on the converted artwork and on the printer's proof/stock. The Lolev master's dots QR uses error correction Q; changing approved QR artwork still requires printed-label scan approval.

@@ -1,0 +1,52 @@
+# Preview (/docs/preview)
+
+One preview, centre of the window. View → **Label** / **Mask** / **Rendered** / **Can** (keys `1` `2` `3` `4`), or pick one in the **Label | Mask | Rendered | Can** control in the status bar. With the divider anywhere between its ends the view is **Compare**: neither Label nor Mask is pressed or checked, and the status bar says *Compare*.
+
+## Label and mask [#label-and-mask]
+
+![Compare view: the mask on the left, blue where white ink prints, and the artwork on the right](/screenshots/label-mask-compare.webp)
+
+Both plates draw in place. Drag the divider by its grip (or focus it and use the arrow keys, Home and End) and the **white-ink layer** slides over the art so you can check registration. View → Label jumps the divider to artwork. View → Mask jumps it to the plate.
+
+Live preview uses a downscaled texture and mask so typing doesn't churn print-size images. Downloads always rebuild at full resolution.
+
+While export files are being built, the preview blurs under a **Building PDF…** or **Building PSD…** note (**Building PDFs…** or **Building PSDs…** with two-file export on), which screen readers announce. An export can start before the preview finishes loading, and shows its note in place of the loading spinner; on the can, the can's own *rendering…* spinner stands aside for it. Ordinary preview edits do not show this export indicator.
+
+## Zoom and pan [#zoom-and-pan]
+
+- Scroll or pinch over the 2D preview to zoom about the pointer (up to 2.5×)
+- **Right-button drag** pans (grabbing cursor). The browser context menu is off over the pane so this matches the 3D views
+- The **percentage** in the status bar is a readout *and* a control. Type a figure. `100` fits the view
+- View → Zoom In (`⌘=` or `⌘+`), Zoom Out (`⌘-`) and Zoom to Fit (`⌘0`) zoom about the middle of the pane, in 2D and 3D
+
+In 3D, 100% means "as framed" for that mode. 200% is twice as close. Typing 100 restores framing distance and leaves your orbit alone. Each 3D view frames so the label reads the same on-screen height as the 2D sheet (measured to the label's near face). Switch views and the subject changes, not the scale.
+
+## Rendered [#rendered]
+
+The same lit label as the can, laid flat: metallic foil where the mask leaves the stock bare, matte where white ink prints. It frames head-on at the same scale as the 2D sheet. Orbit to tilt it and catch the foil. Past edge-on you see the blank back of the stock. Pan and zoom work as on the can; the 1 / 4 count doesn't apply.
+
+**Curve** in the status bar bends the label around a vertical axis, the way it sits on a can: 0% is flat, 100% is the can's own curvature. It starts at a subtle 15%. The label bends without stretching, and the centre stays the same size on screen. The setting is per tab and isn't saved.
+
+## Can [#can]
+
+![The label wrapped around a can in the Can view](/screenshots/can.webp)
+
+Same plates, wrapped around a can. **1 / 4** in the status bar, or View → **One Can** / **Four-Pack** (also in the ⌘K palette), is one can or a 2×2 four-pack. Both are available only in the Can view. Orbit with the left button and pan with the right. With the can view focused, arrow keys pan and Shift plus arrows rotates.
+
+**Lighting** in the status bar turns the lights and reflections around the can, from -180° to 180° in 5° steps. 0° is the standard setup. The angle also lights the Rendered view, and Label Lab remembers it, like the rulers and guides.
+
+Settings → corner radius and edge softness are how the die-cut and foil edge read on the can and in Rendered. Preview/press appearance. They don't redraw the 2D plates, aside from bleed and DPI.
+
+## Rulers and guides [#rulers-and-guides]
+
+View → **Rulers** (`R`) and **Guides** (`G`). 2D only.
+
+- Ruler zero is the **trimmed** art's top-left, so bleed reads negative
+- Pick inches, millimetres, points or pixels (at the PSD resolution) from the ruler corner, or from View → **Units** when the rulers are hidden. It is the app's one unit: the rulers, the inspector's length fields, the move/resize readout on the canvas and the margin inset all follow it, and it is remembered next time. Font size and letter spacing stay in points; stroke width stays in 600-DPI pixels. The pixel unit follows Settings → PSD resolution.
+- Locked margin and centre guides come from the trim box. The margin control (ruler corner) sets the safe inset on all four sides
+- Drag from a ruler to add a **manual** guide, or use **Add vertical guide** / **Add horizontal guide** in the ruler-corner settings. Arrow keys move a focused guide by 1 pt (Shift: 10 pt). Kill it with the × in the ruler, by dragging it back into a ruler, or with Delete while it's focused. Manual guides snap to layers as you place them
+- **Guides** is one switch: trim line, margin and centre, and your manual guides, together
+
+Rulers, manual guides and the unit are view settings, not label content. They never enter a `.label` or an export.
+
+**Margin inset** is different: it is master geometry. It sits under **Master** in the ruler-corner settings, locked each time the settings open. Unlock it with the lock beside the heading, then set the safe inset for all four sides. Changing it leaves the master unsaved until **Save Master**.

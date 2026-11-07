@@ -1,0 +1,60 @@
+# Keyboard shortcuts (/docs/shortcuts)
+
+Single-key shortcuts stand aside while a text field, menu, dialog, or dropdown
+has focus. `⌘` shortcuts work everywhere, even while typing in a field, except
+Undo and Redo, which undo the field's own typing there. While a dialog such as
+Settings or Save Master is open, every shortcut below (file, edit, view, the
+sidebar toggle and the arrow-key nudge) and the menu commands leave the tab
+behind it alone: close the dialog first.
+
+## File and edit [#file-and-edit]
+
+| Action | Keys |
+| --- | --- |
+| New tab | `⌘N` |
+| Open label | `⌘O` |
+| Close tab | `⌘W` |
+| Save label | `⌘S` |
+| Save label as | `⇧⌘S` |
+| Export PDF (Export PDFs with two-file export on) | `⌘E` |
+| Export PSD (Export PSDs with two-file export on) | `⇧⌘E` |
+| Undo | `⌘Z` |
+| Redo | `⇧⌘Z` or `⌘Y` |
+| Command palette | `⌘K` / `Ctrl+K` |
+| Settings | `⌘,` |
+
+On Windows and Linux, `⌘` is `Ctrl`.
+
+## View [#view]
+
+| Action | Keys |
+| --- | --- |
+| View → Label | `1` |
+| View → Mask | `2` |
+| View → Rendered | `3` |
+| View → Can | `4` |
+| View → One Can / Four-Pack | View menu or ⌘K (Can view only) |
+| Rulers | `R` |
+| Guides | `G` |
+| Layers sidebar | `⌘B` (outside fields and dialogs) |
+| Zoom in | `⌘=` or `⌘+` |
+| Zoom out | `⌘-` |
+| Zoom to fit | `⌘0` |
+
+## Canvas [#canvas]
+
+| Action | Keys |
+| --- | --- |
+| Nudge selection | Arrow keys (1 pt) |
+| Coarse nudge | `⇧` + arrow (10 pt) |
+| Remove selected layers | Delete / Backspace (from the Layers list or the canvas; not while typing in a field, with a button focused or from inside a toast) |
+| Remove a master from the library | Delete (on its highlighted row in the open master picker) |
+| Reorder selected layers | `⌥↑` / `⌥↓` on macOS; `Alt+↑` / `Alt+↓` on Windows/Linux (focus a selected Layers row) |
+| Finish an on-preview text edit, keeping the text | Esc or a click away (Enter too in a one-line box) |
+| Close inspector | Esc (when no field is being edited), or the inspector's ✕ |
+| Pan | Right-button drag |
+| Zoom | Scroll or pinch. Type a % in the status bar |
+
+Export PDF As…, Export PSD As…, Open Master, Save Master, View → Appearance, View → Units and the Layer menu's **Add Text / Image / Barcode / QR Layer** and **Remove Layer** live in the menus and the palette. With two-file export on, the As… pairs and the single artwork and mask PDFs have no shortcuts. New Variant is in the palette and at the foot of the master picker, not the menus. None of these has a dedicated key, except Remove Layer's Delete / Backspace above (the menu shows `⌫` as a reminder).
+
+While the label is invalid, `⌘E` and `⇧⌘E` export nothing and show a **Can't export yet** toast with the reason; its **Show layer** button selects the first invalid layer and focuses its value field.

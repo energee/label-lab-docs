@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://energ.ee/label-lab-docs/sitemap.xml
